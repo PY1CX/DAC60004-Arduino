@@ -62,6 +62,13 @@ boolean updateDAC(int channel, int value)
     return false;
   }
   LSB = (int(value)) & 0xFF;
+  /* 
+  *  I tried a lot of senteces for getting the MSB value but this was 
+  *  the only one that worked OK with the DAC60004.
+  *  You can try other ones but make a sine table and try getting all
+  *  values from it. 
+  *  You REALLY needs the AND 0xff00 sentence for this work properly.
+  */
   MSB = ((int(value)) & 0xff00) >> 8;
   digitalWrite(DAC60004_CS_PIN, LOW);
   SPI.transfer(0x03); 
