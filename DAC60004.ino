@@ -19,12 +19,11 @@ void setup()
   Serial.begin(115200);
   pinMode(DAC60004_CS_PIN, OUTPUT);
   SPI.setClockDivider(SPI_CLOCK_DIV2);
-
-
-
 }
+
 void loop()
 {
+  //Example of usage
   updateDAC(0, 4095);
 }
 
@@ -53,6 +52,14 @@ boolean updateDAC(int channel, int value)
     case 1:
     value += DAC60004_CH_B;
     break;
+    case 2:
+    value += DAC60004_CH_C;
+    break;
+    case 3:
+    value += DAC60004_CH_D;
+    break;
+    default:
+    return false;
   }
   LSB = (int(value)) & 0xFF;
   MSB = ((int(value)) & 0xff00) >> 8;
@@ -61,9 +68,10 @@ boolean updateDAC(int channel, int value)
   SPI.transfer(MSB);
   SPI.transfer(LSB);
   SPI.transfer(0x00);
-  digitalWrite(DAC60004_CS_PIN, HIGH); //delay(1000);
+  digitalWrite(DAC60004_CS_PIN, HIGH);
   return true; 
 }
+
 /**
  * 
  * resetDAC - Little function to reset the DAC60004
